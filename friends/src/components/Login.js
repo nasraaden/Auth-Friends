@@ -8,11 +8,10 @@ class Login extends React.Component{
           username: "",
           password: ""
         },
-        // isLoading: false
+        isLoading: false
       };
 
     handleChange = e => {
-        e.preventDefault();
         this.setState({
             credentials: {
                 ...this.state.credentials,
@@ -23,9 +22,9 @@ class Login extends React.Component{
 
     submitForm = e => {
         e.preventDefault();
-        // this.setState({
-        //     isLoading: true
-        // })
+        this.setState({
+            isLoading: true
+        });
         axiosWithAuth()
             .post("/login", this.state.credentials)
             .then(res => {
@@ -39,12 +38,13 @@ class Login extends React.Component{
     render() {
         return (
             <div>
-                <form>
+                <form onSubmit={this.submitForm}>
                     <input type="text" name="username" placeholder="Username" onChange={this.handleChange} 
                     value={this.state.credentials.username}/>
                     <input type="password" name="password" placeholder="Password" onChange={this.handleChange} 
                     value={this.state.credentials.password}/>
-                    <button onClick={this.submitForm}>Login</button>
+                    <button>Login</button>
+                    {this.state.isLoading && "Logging In"}
                 </form>
             </div>
         )
@@ -52,3 +52,4 @@ class Login extends React.Component{
 }
 
 export default Login;
+
